@@ -10,6 +10,8 @@ import android.content.Intent;
 import android.os.Vibrator;
 import android.util.Log;
 
+
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +19,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 
-public class TcpClient implements Runnable  {
+public class TcpClient implements Runnable {
     private String TAG = "TcpClient";
     private String serverIP;
     private int serverPort;
@@ -46,7 +48,7 @@ public class TcpClient implements Runnable  {
             socket = new Socket(serverIP, serverPort);
             Log.i(TAG, "socket连接成功");
 //            连接成功振动0.5s
-            Vibrator vibrator = (Vibrator) FuncTcpClientActivity.context.getSystemService(FuncTcpClientActivity.context.VIBRATOR_SERVICE);
+            Vibrator vibrator = (Vibrator) MainActivity.mContext.getSystemService(MainActivity.VIBRATOR_SERVICE);
             vibrator.vibrate(500);
             socket.setSoTimeout(5000);
             pw = new PrintWriter(socket.getOutputStream(), true);
@@ -66,8 +68,10 @@ public class TcpClient implements Runnable  {
                 Intent intent = new Intent();
                 intent.setAction("tcpClientReceiver");
                 intent.putExtra("tcpClientReceiver", rcvMsg);
-                FuncTcpClientActivity.context.sendBroadcast(intent);//将消息发送给主界面
-                if (("stop".equals(rcvMsg))) {   //服务器要求客户端结束
+                //将消息发送给主界面
+                MainActivity.mContext.sendBroadcast(intent);
+                //服务器要求客户端结束
+                if (("stop".equals(rcvMsg))) {
                     isRun = false;
                 }
             } catch (Exception e) {

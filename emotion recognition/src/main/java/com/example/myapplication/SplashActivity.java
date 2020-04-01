@@ -41,7 +41,7 @@ public class SplashActivity extends Activity {
             public void onClick(View v)
             {
                 isClick = true;
-                Intent intent = new Intent(SplashActivity.this, FuncTcpClientActivity.class);
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -56,10 +56,10 @@ public class SplashActivity extends Activity {
 
             if(what==1 && progress==100 && !isClick)
             {
-                Intent intent = new Intent(SplashActivity.this, FuncTcpClientActivity.class);
+                Intent intent = new Intent(SplashActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
-                Log.e(TAG, "onProgress: =="+progress );
+                Log.e(TAG, "onProgress: ==>"+progress );
             }
 
         }

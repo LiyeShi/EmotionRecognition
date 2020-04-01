@@ -1,1 +1,1 @@
-include ':app', ':emotion recognition'
+include ':emotion recognition'

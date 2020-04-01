@@ -26,7 +26,7 @@
         </activity>
         <activity
             android:name=".SurveillanceActivity" />
-        <activity android:name=".FuncTcpClientActivity" />
+        <activity android:name=".MainActivity" />
     </application>
 
 </manifest>

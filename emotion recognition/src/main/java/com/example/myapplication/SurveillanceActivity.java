@@ -12,8 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
@@ -25,6 +23,9 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ProgressBar;
 import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class SurveillanceActivity extends AppCompatActivity {
     private WebView webView;
@@ -48,7 +49,7 @@ public class SurveillanceActivity extends AppCompatActivity {
         progressBar= (ProgressBar)findViewById(R.id.progressbar);//进度条
         webView = (WebView) findViewById(R.id.webview);
 //        webView.loadUrl("file:///android_asset/test.html");//加载asset文件夹下html
-        webView.loadUrl("http://192.168.1.101:8080/?action=stream\n");//加载url
+        webView.loadUrl("http://192.168.1.112:8080/?action=stream\n");//加载url
 
         //使用webview显示html代码
 //        webView.loadDataWithBaseURL(null,"<html><head><title> 欢迎您 </title></head>" +

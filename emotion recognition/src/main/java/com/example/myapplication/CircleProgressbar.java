@@ -13,9 +13,10 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.os.Build;
-import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.widget.TextView;
+
+import androidx.annotation.ColorInt;
 
 /**
  * @Auther: shiliye
