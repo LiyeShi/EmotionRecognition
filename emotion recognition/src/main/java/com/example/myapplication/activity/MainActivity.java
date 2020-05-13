@@ -1,50 +1,26 @@
-package com.example.myapplication;
+package com.example.myapplication.activity;
 
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.graphics.drawable.ColorDrawable;
-import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.KeyEvent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Build;
-import android.os.Message;
-import android.os.Vibrator;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.AnimationSet;
-import android.view.animation.ScaleAnimation;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.myapplication.fragment.AboutEmotionRecognitionFragment;
-import com.example.myapplication.fragment.AboutUsFragment;
+import com.example.myapplication.R;
+import com.example.myapplication.base.BaseActivity;
 import com.example.myapplication.fragment.TcpClientFragment;
-import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
-import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
-import com.nightonke.boommenu.BoomMenuButton;
-
-import java.lang.ref.WeakReference;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * @auther: shiliye
@@ -52,9 +28,8 @@ import java.util.concurrent.Executors;
  * @description: com.example.myapplication
  * @version: 1.0
  */
-public class MainActivity extends AppCompatActivity {
-    private AboutUsFragment mAboutUsFragment;
-    private AboutEmotionRecognitionFragment mAboutEmotionRecognition;
+public class MainActivity extends BaseActivity {
+    private AboutUsActivity mAboutUsFragment;
     private FrameLayout mMainContainer;
 
     private static final String TAG = "TcpClientActivity";
@@ -66,39 +41,22 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_layout);
         mContext = this;
-        hide();
         initView();
         initFragment();
         initListener();
         selectFragment(new TcpClientFragment());
-
-
-
     }
 
     public void selectFragment(Fragment targetFragment) {
         FragmentManager supportFragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = supportFragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.main_container,targetFragment);
+        fragmentTransaction.add(R.id.main_container,targetFragment,targetFragment.getTag());
         fragmentTransaction.commit();
     }
 
 
 
-    /**
-     * 沉浸模式
-     */
-    public void hide() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            View decorView = getWindow().getDecorView();
-            int option = View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
-            decorView.setSystemUiVisibility(option);
-            getWindow().setStatusBarColor(Color.TRANSPARENT);
-        }
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.hide();
-    }
+
 
     /**
      * 关闭程序
@@ -113,23 +71,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initFragment() {
-        mAboutUsFragment = new AboutUsFragment();
-        mAboutEmotionRecognition = new AboutEmotionRecognitionFragment();
+
     }
 
     private void initView() {
-
         mMainContainer = findViewById(R.id.main_container);
-
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            showExitAlert();
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+      showExitAlert();
     }
+
+
 
     private void showExitAlert() {
         final AlertDialog dlg = new AlertDialog.Builder(this).create();

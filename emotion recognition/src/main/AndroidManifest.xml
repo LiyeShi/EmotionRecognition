@@ -13,10 +13,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".AboutEmotionRecognition"></activity>
-        <activity android:name=".AboutUs" />
+        <activity android:name=".base.BaseActivity"></activity>
+        <activity android:name=".activity.AboutEmotionRecognitionActivity" />
+        <activity android:name=".activity.AboutUsActivity" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activity.SplashActivity"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,9 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".SurveillanceActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".activity.SurveillanceActivity" />
+        <activity android:name=".activity.MainActivity" />
     </application>
 
 </manifest>

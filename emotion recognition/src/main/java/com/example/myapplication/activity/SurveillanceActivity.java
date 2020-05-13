@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.activity;
 
 /**
  * @Auther: shiliye
@@ -27,7 +27,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-public class SurveillanceActivity extends AppCompatActivity {
+import com.example.myapplication.R;
+import com.example.myapplication.base.BaseActivity;
+
+public class SurveillanceActivity extends BaseActivity {
     private WebView webView;
     private ProgressBar progressBar;
 

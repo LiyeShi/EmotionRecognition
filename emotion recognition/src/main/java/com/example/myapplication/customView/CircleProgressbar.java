@@ -1,5 +1,5 @@
 
-package com.example.myapplication;
+package com.example.myapplication.customView;
 
 
 import android.annotation.SuppressLint;
@@ -17,6 +17,8 @@ import android.util.AttributeSet;
 import android.widget.TextView;
 
 import androidx.annotation.ColorInt;
+
+import com.example.myapplication.R;
 
 /**
  * @Auther: shiliye

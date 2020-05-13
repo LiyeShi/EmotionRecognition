@@ -31,9 +31,11 @@ import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 
 import com.example.myapplication.R;
-import com.example.myapplication.SurveillanceActivity;
+import com.example.myapplication.activity.AboutEmotionRecognitionActivity;
+import com.example.myapplication.activity.AboutUsActivity;
+import com.example.myapplication.activity.SurveillanceActivity;
 import com.example.myapplication.TcpClient;
-import com.example.myapplication.MainActivity;
+import com.example.myapplication.activity.MainActivity;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
@@ -87,6 +89,7 @@ public class TcpClientFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.tcp_client,container,false);
         initView(view);
+        mActivity = (MainActivity) getActivity();
         for (int i = 0; i < boomMenuButton.getPiecePlaceEnum().pieceNumber(); i++) {
             TextOutsideCircleButton.Builder builder = new TextOutsideCircleButton.Builder()
                     .listener(new OnBMClickListener() {
@@ -94,11 +97,10 @@ public class TcpClientFragment extends Fragment {
                         public void onBoomButtonClick(int index) {
                             if (index == 0) {
                                 Log.d(TAG, "onBoomButtonClick: 点击==>" + index);
-                                mActivity = (MainActivity) getActivity();
-                                mActivity.selectFragment(new AboutUsFragment());
+                              startActivity(new Intent(MainActivity.mContext,AboutUsActivity.class));
                             } else if (index == 1) {
                                 Log.d(TAG, "onBoomButtonClick: 点击==>" + index);
-                                mActivity. selectFragment(new AboutEmotionRecognitionFragment());
+                                startActivity(new Intent(MainActivity.mContext, AboutEmotionRecognitionActivity.class));
                             } else if (index == 2) {
                               getActivity().finish();
                             }
