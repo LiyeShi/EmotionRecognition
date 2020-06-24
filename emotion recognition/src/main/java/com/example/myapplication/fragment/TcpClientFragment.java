@@ -18,8 +18,9 @@ import android.view.ViewGroup;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.AnimationSet;
 import android.view.animation.ScaleAnimation;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,13 +35,15 @@ import com.example.myapplication.R;
 import com.example.myapplication.activity.AboutEmotionRecognitionActivity;
 import com.example.myapplication.activity.AboutUsActivity;
 import com.example.myapplication.activity.SurveillanceActivity;
-import com.example.myapplication.TcpClient;
+import com.example.myapplication.utils.TcpClient;
 import com.example.myapplication.activity.MainActivity;
+import com.example.myapplication.utils.SpUtils;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.TextOutsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -59,7 +62,7 @@ public class TcpClientFragment extends Fragment {
     private LinearLayout CleanClientRcv;
     private Button btnStartClient, btnCloseClient;
     private TextView txtRcv;
-    private EditText editClientPort, editClientIp;
+    private AutoCompleteTextView editClientPort, editClientIp;
     private static TcpClient tcpClient = null;
     private MyBtnClicker myBtnClicker = new MyBtnClicker();
     public final MyHandler myHandler = new MyHandler((MainActivity) getActivity());
@@ -84,45 +87,37 @@ public class TcpClientFragment extends Fragment {
             R.drawable.about_us,
             R.drawable.questionsign,
             R.drawable.exit,};
+    private ArrayAdapter<String> mIpAdapter;
+    private ArrayAdapter<String> mPortAdapter;
+
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.tcp_client,container,false);
+        View view = inflater.inflate(R.layout.tcp_client, container, false);
         initView(view);
         mActivity = (MainActivity) getActivity();
-        for (int i = 0; i < boomMenuButton.getPiecePlaceEnum().pieceNumber(); i++) {
-            TextOutsideCircleButton.Builder builder = new TextOutsideCircleButton.Builder()
-                    .listener(new OnBMClickListener() {
-                        @Override
-                        public void onBoomButtonClick(int index) {
-                            if (index == 0) {
-                                Log.d(TAG, "onBoomButtonClick: 点击==>" + index);
-                              startActivity(new Intent(MainActivity.mContext,AboutUsActivity.class));
-                            } else if (index == 1) {
-                                Log.d(TAG, "onBoomButtonClick: 点击==>" + index);
-                                startActivity(new Intent(MainActivity.mContext, AboutEmotionRecognitionActivity.class));
-                            } else if (index == 2) {
-                              getActivity().finish();
-                            }
-                        }
-
-                    })
-                    .normalImageRes(getImageResource())
-                    .normalText(getext())
-                    .rotateText(true)
-                    .textHeight(80)
-                    .textSize(20);
-            boomMenuButton.addBuilder(builder);
-
-
-        }
-        btnCloseClient.setEnabled(false);
         initListener();
         cleanRec();
         bindReceiver();
+        btnCloseClient.setEnabled(false);
+        getAutoText();
         return view;
 
-}
+    }
+
+    private void getAutoText() {
+        String ip = SpUtils.getString(getContext(), "info.txt", "ip"," ");
+        String[] s = ip.split(" ");
+        Log.d(TAG, "getAutoText: ==>" + Arrays.toString(s));
+        mIpAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, s);
+        editClientIp.setAdapter(mIpAdapter);
+        String port = SpUtils.getString(getContext(), "info.txt","port"," " );
+        String[] s1 = port.split(" ");
+        mPortAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_dropdown_item_1line, s1);
+        editClientPort.setAdapter(mPortAdapter);
+    }
+
     static String getext() {
         if (index >= text.length) {
             index = 0;
@@ -137,14 +132,43 @@ public class TcpClientFragment extends Fragment {
         }
         return imageResources[imageResourceIndex++];
     }
+
     private void initListener() {
         camera.setOnClickListener(myBtnClicker);
         btnStartClient.setOnClickListener(myBtnClicker);
         btnCloseClient.setOnClickListener(myBtnClicker);
+        for (int i = 0; i < boomMenuButton.getPiecePlaceEnum().pieceNumber(); i++) {
+            TextOutsideCircleButton.Builder builder = new TextOutsideCircleButton.Builder()
+                    .listener(new OnBMClickListener() {
+                        @Override
+                        public void onBoomButtonClick(int index) {
+                            if (index == 0) {
+                                Log.d(TAG, "onBoomButtonClick: 点击==>" + index);
+                                startActivity(new Intent(MainActivity.mContext, AboutUsActivity.class));
+                            } else if (index == 1) {
+                                Log.d(TAG, "onBoomButtonClick: 点击==>" + index);
+                                startActivity(new Intent(MainActivity.mContext, AboutEmotionRecognitionActivity.class));
+                            } else if (index == 2) {
+                                getActivity().finish();
+                            }
+                        }
+
+                    })
+                    .normalImageRes(getImageResource())
+                    .normalText(getext())
+                    .rotateText(true)
+                    .textHeight(80)
+                    .textSize(20);
+            boomMenuButton.addBuilder(builder);
+
+
+        }
     }
-    public  Activity getBActivity(){
+
+    public Activity getBActivity() {
         return this.getActivity();
     }
+
     private void cleanRec() {
         CleanClientRcv.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
@@ -154,9 +178,10 @@ public class TcpClientFragment extends Fragment {
             }
         });
     }
+
     private void bindReceiver() {
         IntentFilter intentFilter = new IntentFilter("tcpClientReceiver");
-       getActivity(). registerReceiver(myBroadcastReceiver, intentFilter);
+        getActivity().registerReceiver(myBroadcastReceiver, intentFilter);
     }
 
     public void orClick() {
@@ -173,25 +198,24 @@ public class TcpClientFragment extends Fragment {
 //        监控按钮
         camera = view.findViewById(R.id.btn_camera);
 //        提示
-        tips =  view.findViewById(R.id.tv_tips);
+        tips = view.findViewById(R.id.tv_tips);
 //        连接
-        btnStartClient =  view.findViewById(R.id.btn_tcpClientConn);
+        btnStartClient = view.findViewById(R.id.btn_tcpClientConn);
 //        断开连接
-        btnCloseClient =  view.findViewById(R.id.btn_tcpClientClose);
+        btnCloseClient = view.findViewById(R.id.btn_tcpClientClose);
 //        清除接收区
-        CleanClientRcv = view. findViewById(R.id.lyclean);
+        CleanClientRcv = view.findViewById(R.id.lyclean);
 //        ip输入框
-        editClientPort =  view. findViewById(R.id.edit_tcpClientPort);
+        editClientPort = view.findViewById(R.id.edit_tcpClientPort);
 //        端口号输入框
-        editClientIp = view. findViewById(R.id.edit_tcpClientIp);
+        editClientIp = view.findViewById(R.id.edit_tcpClientIp);
 //        接受的信息
-        txtRcv =  view.findViewById(R.id.txt_ClientRcv);
-        iv1 =  view.findViewById(R.id.iv_wave_1);
-        iv2 =  view.findViewById(R.id.iv_wave_2);
-        CleanClientRcv =  view.findViewById(R.id.lyclean);
-        boomMenuButton =view.findViewById(R.id.bmb);
+        txtRcv = view.findViewById(R.id.txt_ClientRcv);
+        iv1 = view.findViewById(R.id.iv_wave_1);
+        iv2 = view.findViewById(R.id.iv_wave_2);
+        CleanClientRcv = view.findViewById(R.id.lyclean);
+        boomMenuButton = view.findViewById(R.id.bmb);
     }
-
 
 
     public void playVoice(Context context) {
@@ -253,6 +277,7 @@ public class TcpClientFragment extends Fragment {
         as.addAnimation(alphaAnimation);
         iv2.startAnimation(as);
     }
+
     private class MyBtnClicker implements View.OnClickListener {
         @Override
         public void onClick(View view) {
@@ -262,7 +287,15 @@ public class TcpClientFragment extends Fragment {
                     try {
                         Log.i(TAG, "onClick: 开始");
 //                 得到ip和端口号
-                        tcpClient = new TcpClient(editClientIp.getText().toString(), getPort(editClientPort.getText().toString()));
+                        String ip = editClientIp.getText().toString();
+                        int port = getPort(editClientPort.getText().toString());
+//                        每次存之前先把之前的取出来 避免覆盖
+                        String beforeIp = SpUtils.getString(getActivity(), "info.txt", "ip"," ");
+                        Log.d(TAG, "onClick: beforeIp==>" + beforeIp);
+                        SpUtils.putString(getActivity(), "info.txt", "ip",beforeIp + " " + ip);
+                        String beforePort = SpUtils.getString(getActivity(), "info.txt","port"," ");
+                        SpUtils.putString(getActivity(), "info.txt", "port", beforePort + " " + port);
+                        tcpClient = new TcpClient(ip, port);
                         exec.execute(tcpClient);
                         btnStartClient.setEnabled(false);
                         btnCloseClient.setEnabled(true);
@@ -309,7 +342,7 @@ public class TcpClientFragment extends Fragment {
                         iv2.setBackground(getActivity().getDrawable(R.drawable.shape_circle_red));
                         setAnim1();
                         setAnim2();
-                        vibrator = (Vibrator)getActivity().getSystemService(VIBRATOR_SERVICE);
+                        vibrator = (Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE);
                         long[] patter = {100, 1000, 100, 1000};
                         vibrator.vibrate(patter, 1);
                     } else if (RECEIVER_MESSAGE_HAPPY.equals(msg.obj.toString().trim())) {
@@ -348,14 +381,13 @@ public class TcpClientFragment extends Fragment {
                     }
                     orClick();
                     Toast.makeText(getActivity(), "连接失败！", Toast.LENGTH_LONG).show();
-                    Vibrator vibrator = (Vibrator)getActivity().getSystemService(VIBRATOR_SERVICE);
+                    Vibrator vibrator = (Vibrator) getActivity().getSystemService(VIBRATOR_SERVICE);
                     long[] patter = {0, 100, 200, 100};
                     vibrator.vibrate(patter, -1);
                 }
             }
         }
     }
-
 
 
     private class MyBroadcastReceiver extends BroadcastReceiver {
@@ -375,8 +407,6 @@ public class TcpClientFragment extends Fragment {
             }
         }
     }
-
-
 
 
     private int getPort(String port) {

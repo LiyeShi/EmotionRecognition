@@ -23,14 +23,13 @@ import com.example.myapplication.base.BaseActivity;
 import com.example.myapplication.fragment.TcpClientFragment;
 
 /**
- * @auther: shiliye
+ * @author 鑫宇
  * @date: 2019/7/10
  * @description: com.example.myapplication
  * @version: 1.0
  */
 public class MainActivity extends BaseActivity {
     private AboutUsActivity mAboutUsFragment;
-    private FrameLayout mMainContainer;
 
     private static final String TAG = "TcpClientActivity";
     public static Context mContext;
@@ -75,7 +74,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initView() {
-        mMainContainer = findViewById(R.id.main_container);
+        FrameLayout mainContainer = findViewById(R.id.main_container);
     }
 
     @Override

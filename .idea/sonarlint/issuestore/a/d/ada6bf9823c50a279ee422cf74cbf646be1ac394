@@ -1,0 +1,6 @@
+
+asquid:CommentedOutCodeLine;"<This block of commented-out lines of code should be removed.(”¦ƒ
+bsquid:CommentedOutCodeLineQ"<This block of commented-out lines of code should be removed.(å¹‡
+psquid:UselessImportCheck"ERemove this unused import 'androidx.appcompat.app.AppCompatActivity'.(€¶£î8ÆŸÖã .
+bsquid:S1192b"FDefine a constant instead of duplicating this literal "ansen" 4 times.(ÂÉÎúÿÿÿÿ
+qsquid:MaximumInheritanceDepth!"<This class has 7 parents which is greater than 5 authorized.(Ð‡ÿ»úÿÿÿÿ8¦Í÷ã .

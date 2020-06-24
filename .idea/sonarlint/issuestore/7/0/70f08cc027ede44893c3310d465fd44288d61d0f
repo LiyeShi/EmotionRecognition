@@ -1,0 +1,9 @@
+
+csquid:UselessImportCheck"8Remove this unused import 'androidx.annotation.NonNull'.(ˆÛúÜ8¦ß§ã .
+psquid:UselessImportCheck
+"ERemove this unused import 'androidx.appcompat.app.AppCompatActivity'.(€¶£î8õÖã .
+^squid:UselessImportCheck".Remove this unused import 'android.view.View'.(Ø½­äşÿÿÿÿ8¦ß§ã .
+ksquid:UselessImportCheck";Remove this unused import 'androidx.fragment.app.Fragment'.(‚Š©“ùÿÿÿÿ8¶»¨ã .
+csquid:UselessImportCheck"8Remove this unused import 'android.view.LayoutInflater'.(À¯ÑÇ8¦ß§ã .
+^squid:UselessImportCheck"3Remove this unused import 'android.view.ViewGroup'.(‹îá8¦ß§ã .
+ksquid:MaximumInheritanceDepth"<This class has 7 parents which is greater than 5 authorized.(ÜÖ¡#8¦Í÷ã .
